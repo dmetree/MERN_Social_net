@@ -5,6 +5,9 @@ const app = express();
 // connet Database
 connetDB();
 
+// Init middleware
+app.use(express.json({extended: false}));
+
 app.get('/', (req, res) => res.send('API runnig')); 
 
 // Define routs
