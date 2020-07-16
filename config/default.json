@@ -1,3 +1,4 @@
 {
-    "mongoURI": "mongodb+srv://dmi123:dmi123@mern-cluster.j0s06.mongodb.net/<dbname>?retryWrites=true&w=majority"
+    "mongoURI": "mongodb+srv://dmi123:dmi123@mern-cluster.j0s06.mongodb.net/<dbname>?retryWrites=true&w=majority",
+    "jwtSecret": "mysecretlife"
 }
