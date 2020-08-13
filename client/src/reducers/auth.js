@@ -20,12 +20,20 @@ export default function (state = initialState, action ){
                 loading: false
             }
         case a.REGISTER_FAIL: 
+        case a.AUTH_ERROR:
         localStorage.removeItem('token');
             return {
                 ...state,
                 token: null,
                 isAuthenticated: false,
                 loading: false
+            }
+        case a.USER_LOADED: 
+            return{
+                ...state,
+                isAuthenticated: true,
+                loading: false,
+                user: action.payload
             }
         default:
             return state;
