@@ -6,31 +6,29 @@ import { getCurrentProfile } from './../../actions/profile'
 import Spinner from '../layout/Spinner'
 
 
-const Dashboard = ({ getCurrentProfile, auth: { user }, profile }) => {
+const Dashboard = ({ getCurrentProfile, auth: { user }, profile: { profile } }) => {
     useEffect(() => {
         getCurrentProfile();
-    }, []);
+    }, [getCurrentProfile]);
 
     return (
-        profile.loading && profile === null ? <Spinner /> : <Fragment>
+        <Fragment>
             <h1 className="large text-primary">Dashboard</h1>
             <p className="lead">
-                Welcome {user && user.name}
+                <i className="fas fa-user" /> Welcome {user && user.name}
             </p>
 
 
             {profile !== null ? (
                 <Fragment>
-                    {/* <DashboardActions /> */}
-                    {/* <Experience experience={profile.experience} /> */}
-                    {/* <Education education={profile.education} /> */}
+                    {/* <DashboardActions />
+                    <Experience experience={profile.experience} />
+                    <Education education={profile.education} /> */}
 
                     <div className="my-2">
-                        <button className="btn btn-danger"
-                        // onClick={() => deleteAccount()}
-                        >
+                        <button className="btn btn-danger">
                             Delete My Account
-                    </button>
+                        </button>
                     </div>
                 </Fragment>
             ) : (
@@ -40,7 +38,7 @@ const Dashboard = ({ getCurrentProfile, auth: { user }, profile }) => {
                             Create Profile
                         </Link>
                     </Fragment>
-                )}
+            )}
         </Fragment>
 
     )
