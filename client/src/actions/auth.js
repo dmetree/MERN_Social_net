@@ -67,7 +67,7 @@ export const login = (email, password) => async dispatch => {
     const body = JSON.stringify({ email, password })
 
     try {
-        const res = await axios.post('api/auth', body, config)
+        const res = await axios.post('/api/auth', body, config)
 
         dispatch({
             type: a.LOGIN_SUCCESS,
@@ -90,9 +90,8 @@ export const login = (email, password) => async dispatch => {
 
 // Logout / Clear profile
 export const logout = () => dispatch => {
-    dispatch({
-        type: a.LOGOUT,
-    })
+    dispatch({type: a.CLEAR_PROFILE})
+    dispatch({type: a.LOGOUT})
 }
 
 
