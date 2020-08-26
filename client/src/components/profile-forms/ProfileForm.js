@@ -3,26 +3,49 @@ import { Link, withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-import { createProfile } from '../../actions/profile';
+import { createProfile, getCurrentProfile } from '../../actions/profile';
 
-const CreateProfile = ({ createProfile, history }) => {
+const initialState = {
+    company: '',
+    website: '',
+    location: '',
+    status: '',
+    skills: '',
+    githubusername: '',
+    bio: '',
+    twitter: '',
+    facebook: '',
+    linkedin: '',
+    youtube: '',
+    instagram: ''
+};
 
-    const [formData, setFormData] = useState({
-        company: '',
-        website: '',
-        location: '',
-        status: '',
-        skills: '',
-        githubusername: '',
-        bio: '',
-        twitter: '',
-        facebook: '',
-        linkedin: '',
-        youtube: '',
-        instagram: ''
-    })
 
-    const [displaySocialInputs, toggleSocialInputs] = useState(false)
+const ProfileForm = ({
+    profile: { profile, loading },
+    createProfile,
+    getCurrentProfile,
+    history
+}) => {
+    const [formData, setFormData] = useState(initialState);
+
+    const [displaySocialInputs, toggleSocialInputs] = useState(false);
+
+    useEffect(() => {
+        if (!profile) getCurrentProfile();
+        if (!loading && profile) {
+            const profileData = { ...initialState };
+            for (const key in profile) {
+                if (key in profileData) profileData[key] = profile[key];
+            }
+            for (const key in profile.social) {
+                if (key in profileData) profileData[key] = profile.social[key];
+            }
+            if (Array.isArray(profileData.skills))
+                profileData.skills = profileData.skills.join(', ');
+            setFormData(profileData);
+        }
+    }, [loading, getCurrentProfile, profile]);
 
     const {
         company,
@@ -39,29 +62,24 @@ const CreateProfile = ({ createProfile, history }) => {
         instagram
     } = formData;
 
-
-    const onChange = e => setFormData({
-        ...formData, [e.target.name]: e.target.value
-    }) 
+    const onChange = e =>
+        setFormData({ ...formData, [e.target.name]: e.target.value });
 
     const onSubmit = e => {
         e.preventDefault();
-        createProfile(formData, history)
-    }
+        createProfile(formData, history, profile ? true : false);
+    };
 
     return (
         <Fragment>
             <h1 className="large text-primary">Edit Your Profile</h1>
             <p className="lead">
                 <i className="fas fa-user" /> Add some changes to your profile
-            </p>
+      </p>
             <small>* = required field</small>
             <form className="form" onSubmit={onSubmit}>
                 <div className="form-group">
-                    <select name="status" 
-                    value={status} 
-                    onChange={onChange}
-                    >
+                    <select name="status" value={status} onChange={onChange}>
                         <option>* Select Professional Status</option>
                         <option value="Developer">Developer</option>
                         <option value="Junior Developer">Junior Developer</option>
@@ -74,7 +92,7 @@ const CreateProfile = ({ createProfile, history }) => {
                     </select>
                     <small className="form-text">
                         Give us an idea of where you are at in your career
-                    </small>
+          </small>
                 </div>
                 <div className="form-group">
                     <input
@@ -86,7 +104,7 @@ const CreateProfile = ({ createProfile, history }) => {
                     />
                     <small className="form-text">
                         Could be your own company or one you work for
-                    </small>
+          </small>
                 </div>
                 <div className="form-group">
                     <input
@@ -98,7 +116,7 @@ const CreateProfile = ({ createProfile, history }) => {
                     />
                     <small className="form-text">
                         Could be your own or a company website
-                    </small>
+          </small>
                 </div>
                 <div className="form-group">
                     <input
@@ -110,7 +128,7 @@ const CreateProfile = ({ createProfile, history }) => {
                     />
                     <small className="form-text">
                         City & state suggested (eg. Boston, MA)
-                    </small>
+          </small>
                 </div>
                 <div className="form-group">
                     <input
@@ -122,7 +140,7 @@ const CreateProfile = ({ createProfile, history }) => {
                     />
                     <small className="form-text">
                         Please use comma separated values (eg. HTML,CSS,JavaScript,PHP)
-                    </small>
+          </small>
                 </div>
                 <div className="form-group">
                     <input
@@ -135,7 +153,7 @@ const CreateProfile = ({ createProfile, history }) => {
                     <small className="form-text">
                         If you want your latest repos and a Github link, include your
                         username
-                    </small>
+          </small>
                 </div>
                 <div className="form-group">
                     <textarea
@@ -154,11 +172,11 @@ const CreateProfile = ({ createProfile, history }) => {
                         className="btn btn-light"
                     >
                         Add Social Network Links
-                    </button>
+          </button>
                     <span>Optional</span>
                 </div>
 
-                { displaySocialInputs && (
+                {displaySocialInputs && (
                     <Fragment>
                         <div className="form-group social-input">
                             <i className="fab fa-twitter fa-2x" />
@@ -220,15 +238,22 @@ const CreateProfile = ({ createProfile, history }) => {
                 <input type="submit" className="btn btn-primary my-1" />
                 <Link className="btn btn-light my-1" to="/dashboard">
                     Go Back
-                </Link>
+        </Link>
             </form>
         </Fragment>
-    )
-}
+    );
+};
 
-CreateProfile.propTypes = {
-    createProfile: PropTypes.func.isRequired 
-}
+ProfileForm.propTypes = {
+    createProfile: PropTypes.func.isRequired,
+    getCurrentProfile: PropTypes.func.isRequired,
+    profile: PropTypes.object.isRequired
+};
 
+const mapStateToProps = state => ({
+    profile: state.profile
+});
 
-export default connect(null, { createProfile })(withRouter(CreateProfile))
+export default connect(mapStateToProps, { createProfile, getCurrentProfile })(
+    ProfileForm
+);

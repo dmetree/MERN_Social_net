@@ -16,22 +16,26 @@ const { response } = require('express');
 
 router.get('/me', auth, async (req, res) => {
     try {
-        const profile = await Profile.findOne({ user: req.user.id }).populate('user', ['name', 'avatar']);
+        const profile = await Profile.findOne({
+            user: req.user.id
+        }).populate('user', ['name', 'avatar']);
+
         if (!profile) {
             return res.status(400).json({ msg: 'There is no profile for this user' });
         }
-        res.json(profile);
 
+        res.json(profile);
     } catch (err) {
         console.error(err.message);
-        res.status(500).send('Server error')
+        res.status(500).send('Server Error');
     }
 });
 
 
-// @route   GET api/profile
-// @desc    Create / Update user profile
-// @access  Private
+
+// @route    POST api/profile
+// @desc     Create or update user profile
+// @access   Private
 router.post(
     '/',
     [
@@ -97,8 +101,6 @@ router.post(
         }
     }
 );
-
-
 
 // @route   GET api/profile
 // @desc    Get all profiles
