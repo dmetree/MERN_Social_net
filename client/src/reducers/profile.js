@@ -1,7 +1,6 @@
 import * as a from './../actions/types';
 
 
-
 const initialState = {
     profile: null,
     profiles: [],

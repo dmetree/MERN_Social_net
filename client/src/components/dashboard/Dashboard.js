@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { getCurrentProfile } from './../../actions/profile'
+import Experience from './Experience'
+import Education from './Education'
 
 import DashboardActions from './DashboardActions'
 
@@ -23,8 +25,8 @@ const Dashboard = ({ getCurrentProfile, auth: { user }, profile: { profile } }) 
             {profile !== null ? (
                 <Fragment>
                     <DashboardActions />
-                    {/* <Experience experience={profile.experience} />
-                    <Education education={profile.education} /> */}
+                    <Experience experience={profile.experience} />
+                    <Education education={profile.education} />
 
                     <div className="my-2">
                         <button className="btn btn-danger">

@@ -110,3 +110,61 @@ export const addEducation = (formData, history) => async dispatch => {
     });
   }
 };
+
+//  Delete Experience
+export const deleteExperience = ( id ) => async dispatch => {
+  try {
+    const res = await axios.delete(`api/profile/experience/${id}`)
+
+    dispatch({
+      type: a.UPDATE_PROFILE,
+      payload: res.data
+    })
+
+    dispatch(setAlert('Experiene Removed', 'success'));
+  } catch (err) {
+    dispatch({
+      type: a.PROFILE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+}
+
+//  Delete Education
+export const deleteEducation = (id) => async dispatch => {
+  try {
+    const res = await axios.delete(`api/profile/education/${id}`)
+
+    dispatch({
+      type: a.UPDATE_PROFILE,
+      payload: res.data
+    })
+
+    dispatch(setAlert('Education Removed', 'success'));
+  } catch (err) {
+    dispatch({
+      type: a.PROFILE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+}
+
+
+//  Delete Profile & Account
+// export const deleteEducation = (id) => async dispatch => {
+//   try {
+//     const res = await axios.delete(`api/profile/education/${id}`)
+
+//     dispatch({
+//       type: a.UPDATE_PROFILE,
+//       payload: res.data
+//     })
+
+//     dispatch(setAlert('Education Removed', 'success'));
+//   } catch (err) {
+//     dispatch({
+//       type: a.PROFILE_ERROR,
+//       payload: { msg: err.response.statusText, status: err.response.status }
+//     });
+//   }
+// }
