@@ -1,6 +1,5 @@
 import * as a from './../actions/types';
 
-
 const initialState = {
     profile: null,
     profiles: [],
@@ -18,7 +17,13 @@ export default function (state = initialState, action) {
                 profile: action.payload,
                 loading: false
             }
-        case a.PROFILE_ERROR: 
+        case a.GET_PROFILES:
+            return {
+                ...state,
+                profiles: action.payload,
+                loading: false
+            }
+        case a.PROFILE_ERROR:
             return {
                 ...state,
                 error: action.payload,
@@ -29,6 +34,12 @@ export default function (state = initialState, action) {
                 ...state,
                 profile: null,
                 repos: [],
+                loading: false
+            }
+        case a.GET_REPOS:
+            return {
+                ...state,
+                repos: action.payload,
                 loading: false
             }
         default:

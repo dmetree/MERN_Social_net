@@ -3,23 +3,79 @@ import * as a from './types';
 import { setAlert } from './alert';
 
 // get current user's profile
-
 export const getCurrentProfile = () => async dispatch => {
+  try {
+    const res = await axios.get('api/profile/me')
 
-    try {
-        const res = await axios.get('api/profile/me')
-
-        dispatch({
-            type: a.GET_PROFILE,
-            payload: res.data
-        })
-    } catch (err) {
-        dispatch({
-            type: a.PROFILE_ERROR,
-            payload: { msg: err.response.statusText, status: err.response.status}
-        })
-    }
+    dispatch({
+      type: a.GET_PROFILE,
+      payload: res.data
+    })
+  } catch (err) {
+    dispatch({
+      type: a.PROFILE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    })
+  }
 }
+
+
+// Get all profiles
+export const getProfiles = () => async dispatch => {
+
+  dispatch({type: a.CLEAR_PROFILE}); // Prevent flashing of a past user profile?
+  try {
+    const res = await axios.get('api/profile')
+
+    dispatchEvent({
+      type: a.GET_PROFILES,
+      payload: res.data
+    })
+  } catch (err) {
+    dispatch({
+      type: a.PROFILE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    })
+  }
+}
+
+// Get profile by id
+export const getProfileById = (userId) => async dispatch => {
+
+  try {
+    const res = await axios.get(`api/profile/user/${userId}`)
+
+    dispatchEvent({
+      type: a.GET_PROFILE,
+      payload: res.data
+    })
+  } catch (err) {
+    dispatch({
+      type: a.PROFILE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    })
+  }
+}
+
+
+// Get profile by id
+export const getGithubRepos = (username) => async dispatch => {
+
+  try {
+    const res = await axios.get(`api/profile/github/${username}`)
+
+    dispatchEvent({
+      type: a.GET_REPOS,
+      payload: res.data
+    })
+  } catch (err) {
+    dispatch({
+      type: a.PROFILE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    })
+  }
+}
+
 
 
 // Create or update profile
@@ -112,7 +168,7 @@ export const addEducation = (formData, history) => async dispatch => {
 };
 
 //  Delete Experience
-export const deleteExperience = ( id ) => async dispatch => {
+export const deleteExperience = (id) => async dispatch => {
   try {
     const res = await axios.delete(`api/profile/experience/${id}`)
 
@@ -152,14 +208,17 @@ export const deleteEducation = (id) => async dispatch => {
 
 //  Delete Profile & Account
 export const deleteAccount = () => async dispatch => {
-  if(window.confirm('Are you sure?')) {
+  if (window.confirm('Are you sure?')) {
     try {
       const res = await axios.delete('api/profile')
 
       dispatch({
-        type: a.CLEAR_PROFILE,
+        type: a.CLEAR_PROFILE
+      })
+      dispatch({
         type: a.ACCOUNT_DELETED
       })
+      
 
       dispatch(setAlert('Account Deleted'));
     } catch (err) {
