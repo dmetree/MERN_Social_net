@@ -151,20 +151,22 @@ export const deleteEducation = (id) => async dispatch => {
 
 
 //  Delete Profile & Account
-// export const deleteEducation = (id) => async dispatch => {
-//   try {
-//     const res = await axios.delete(`api/profile/education/${id}`)
+export const deleteAccount = () => async dispatch => {
+  if(window.confirm('Are you sure?')) {
+    try {
+      const res = await axios.delete('api/profile')
 
-//     dispatch({
-//       type: a.UPDATE_PROFILE,
-//       payload: res.data
-//     })
+      dispatch({
+        type: a.CLEAR_PROFILE,
+        type: a.ACCOUNT_DELETED
+      })
 
-//     dispatch(setAlert('Education Removed', 'success'));
-//   } catch (err) {
-//     dispatch({
-//       type: a.PROFILE_ERROR,
-//       payload: { msg: err.response.statusText, status: err.response.status }
-//     });
-//   }
-// }
+      dispatch(setAlert('Account Deleted'));
+    } catch (err) {
+      dispatch({
+        type: a.PROFILE_ERROR,
+        payload: { msg: err.response.statusText, status: err.response.status }
+      });
+    }
+  }
+}
