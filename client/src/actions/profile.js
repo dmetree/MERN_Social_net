@@ -22,12 +22,11 @@ export const getCurrentProfile = () => async dispatch => {
 
 // Get all profiles
 export const getProfiles = () => async dispatch => {
-
   dispatch({type: a.CLEAR_PROFILE}); // Prevent flashing of a past user profile?
   try {
     const res = await axios.get('api/profile')
 
-    dispatchEvent({
+    dispatch({
       type: a.GET_PROFILES,
       payload: res.data
     })
@@ -45,7 +44,7 @@ export const getProfileById = (userId) => async dispatch => {
   try {
     const res = await axios.get(`api/profile/user/${userId}`)
 
-    dispatchEvent({
+    dispatch({
       type: a.GET_PROFILE,
       payload: res.data
     })
@@ -58,13 +57,13 @@ export const getProfileById = (userId) => async dispatch => {
 }
 
 
-// Get profile by id
+// Get Github repos
 export const getGithubRepos = (username) => async dispatch => {
 
   try {
     const res = await axios.get(`api/profile/github/${username}`)
 
-    dispatchEvent({
+    dispatch({
       type: a.GET_REPOS,
       payload: res.data
     })
