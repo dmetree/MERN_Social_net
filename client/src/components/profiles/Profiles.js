@@ -9,7 +9,7 @@ const Profiles = ({ getProfiles, profile: {profiles, loading}}) => {
 
     useEffect(() => {
         getProfiles();
-    },[])
+    }, [getProfiles])
 
 
     let showProfiles = <h4>No profiles found...</h4>

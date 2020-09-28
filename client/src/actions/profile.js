@@ -5,7 +5,7 @@ import { setAlert } from './alert';
 // get current user's profile
 export const getCurrentProfile = () => async dispatch => {
   try {
-    const res = await axios.get('api/profile/me')
+    const res = await axios.get('/api/profile/me')
 
     dispatch({
       type: a.GET_PROFILE,
@@ -24,7 +24,7 @@ export const getCurrentProfile = () => async dispatch => {
 export const getProfiles = () => async dispatch => {
   dispatch({type: a.CLEAR_PROFILE}); // Prevent flashing of a past user profile?
   try {
-    const res = await axios.get('api/profile')
+    const res = await axios.get('/api/profile')
 
     dispatch({
       type: a.GET_PROFILES,
@@ -39,11 +39,9 @@ export const getProfiles = () => async dispatch => {
 }
 
 // Get profile by id
-export const getProfileById = (userId) => async dispatch => {
-
+export const getProfileById = userId => async dispatch => {
   try {
-    const res = await axios.get(`api/profile/user/${userId}`)
-
+    const res = await axios.get(`/api/profile/user/${userId}`)
     dispatch({
       type: a.GET_PROFILE,
       payload: res.data
@@ -84,7 +82,7 @@ export const createProfile = (
   edit = false
 ) => async dispatch => {
   try {
-    const res = await axios.post('api/profile', formData);
+    const res = await axios.post('/api/profile', formData);
 
     dispatch({
       type: a.GET_PROFILE,
@@ -113,7 +111,7 @@ export const createProfile = (
 // Add Experience
 export const addExperience = (formData, history) => async dispatch => {
   try {
-    const res = await axios.put('api/profile/experience', formData);
+    const res = await axios.put('/api/profile/experience', formData);
 
     dispatch({
       type: a.UPDATE_PROFILE,
@@ -209,7 +207,7 @@ export const deleteEducation = (id) => async dispatch => {
 export const deleteAccount = () => async dispatch => {
   if (window.confirm('Are you sure?')) {
     try {
-      const res = await axios.delete('api/profile')
+      await axios.delete('api/profile')
 
       dispatch({
         type: a.CLEAR_PROFILE

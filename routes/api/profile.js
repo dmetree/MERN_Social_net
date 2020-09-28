@@ -30,7 +30,7 @@ router.get('/me', auth, async (req, res) => {
 });
 
 
-// @route   GET api/profile
+// @route   POST api/profile
 // @desc    Create / Update user profile
 // @access  Private
 router.post(
@@ -123,10 +123,8 @@ router.get('/', async (req, res) => {
 router.get('/user/:user_id', async (req, res) => {
     try {
         const profile = await Profile.findOne({ user: req.params.user_id }).populate('user', ['name', 'avatar']);
-
         if (!profile)
             return res.status(400).json({ msg: 'Profile not found' });
-
         res.json(profile);
     } catch (err) {
         console.error(err.message);
@@ -195,11 +193,8 @@ router.put('/experience', [auth, [
 
     try {
         const profile = await Profile.findOne({ user: req.user.id });
-
         profile.experience.unshift(newExp);
-
         await profile.save();
-
         res.json(profile);
     } catch (err) {
         console.error(err.message);
