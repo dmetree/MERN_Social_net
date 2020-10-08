@@ -18,7 +18,15 @@ export default function (state = initialState, action) {
         case a.POSTS_ERROR:
             return {
                 ...state,
-                error : action.payload,
+                error: action.payload,
+                loading: false
+            }
+        case a.UPDATE_LIKES:
+            return {
+                ...state,
+                posts: state.posts.map(post => 
+                    post._id === action.payload.id ? { ...post, likes: action.payload.likes} : post
+                ),
                 loading: false
             }
         default:
