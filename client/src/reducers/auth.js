@@ -8,7 +8,7 @@ const initialState = {
 }
 
 export default function (state = initialState, action ){
-    // const {type, payload} = action;
+    // const {type, payload} = action; // in action \ there's 2 properties.
     
     switch(action.type) {
         case a.REGISTER_SUCCESS:
