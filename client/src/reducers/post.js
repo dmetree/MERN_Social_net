@@ -21,6 +21,20 @@ export default function (state = initialState, action) {
                 error: action.payload,
                 loading: false
             }
+        case a.ADD_POST:
+            return {
+                ...state,
+                posts: [action.payload, ...state.posts],
+                loading: false
+            }
+        case a.DELETE_POST: 
+            return {
+                ...state,
+                posts: state.posts.filter(post => 
+                    post._id !== action.payload     
+                ),
+                loading: false
+            }
         case a.UPDATE_LIKES:
             return {
                 ...state,
