@@ -153,7 +153,7 @@ router.put('/unlike/:id', auth, async (req, res) => {
 // @desc    Create a comment
 // @access  Private
 
-router.post('/comments/:id', [auth, [
+router.post('/comment/:id', [auth, [
     check('text', 'Text is required').not().isEmpty()
 ]],
     async (req, res) => {
@@ -219,7 +219,7 @@ router.post('/comments/:id', [auth, [
 //     });
 
 
-router.delete('/comments/:id/:comment_id', auth, async (req, res) => {
+router.delete('/comment/:id/:comment_id', auth, async (req, res) => {
     try {
         const post = await Post.findById(req.params.id);
 

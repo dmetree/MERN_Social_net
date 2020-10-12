@@ -10,8 +10,9 @@ const PostItem = ({
     removeLike, 
     deletePost,
     auth, 
-    post:{ _id, text, name, avatar, user, likes, comments, date  }}
-    ) => {
+    post:{ _id, text, name, avatar, user, likes, comments, date  },
+    showActions,
+    }) => {
     return (
         <div className='post bg-white p-1 my-1'>
             <div>
@@ -26,7 +27,7 @@ const PostItem = ({
                     Posted on <Moment format='YYYY/MM/DD'>{date}</Moment>
                 </p>
 
-                {/* {showActions && ( */}
+                {showActions && (
                     <Fragment>
                         <button
                             onClick={() => addLike(_id)}
@@ -43,7 +44,7 @@ const PostItem = ({
                         >
                             V<i className='fas fa-thumbs-down' />
                         </button>
-                        <Link to={`/post/${_id}`} className='btn btn-primary'>
+                        <Link to={`/posts/${_id}`} className='btn btn-primary'>
                             Discussion{' '}
                             {comments.length > 0 && (
                                 <span className='comment-count'>{comments.length}</span>
@@ -59,10 +60,14 @@ const PostItem = ({
                             </button>
                         )}
                     </Fragment>
-                
+                )}
             </div>
         </div>
     )
+}
+
+PostItem.defaultProps = {
+    showActions: true
 }
 
 PostItem.propTypes = {
