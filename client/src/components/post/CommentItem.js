@@ -25,7 +25,7 @@ const CommentItem = ({ comment: { _id, avatar, user, date, text, name }, postId,
                         type='button'
                         className='btn btn-danger'
                     >
-                        X
+                        x
                     </button>
                 )}
             </div>
@@ -36,7 +36,7 @@ const CommentItem = ({ comment: { _id, avatar, user, date, text, name }, postId,
 CommentItem.propTypes = {
     deleteComment: PropTypes.func.isRequired,
     auth: PropTypes.object.isRequired,
-    postId: PropTypes.number.isRequired,
+    postId: PropTypes.string.isRequired,
     comment: PropTypes.object.isRequired,
 }
 
